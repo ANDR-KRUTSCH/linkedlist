@@ -12,14 +12,15 @@ class LinkedList:
     
     def __init__(self) -> None:
         self._head = None
+        self._length = 0
 
     def clear(self) -> None:
-        '''Remove all contained items.'''
+        '''Remove all contained nodes.'''
 
         self._head = None
 
     def add(self, value: Any, index: int = None) -> None:
-        '''A method for adding an element to the linked-list. If an index was given, an element will be added at index-position else it will be added to the end of the linked-list.'''
+        '''A method for adding a node to the linked-list. If an index was given, a node will be added at index-position else it will be added to the end of the linked-list.'''
 
         if index is not None and not isinstance(index, int):
             raise TypeError('index type must be an integer')
@@ -66,9 +67,11 @@ class LinkedList:
                         previous_node._link = node
                         node._link = next_node
                     node = node._link
+
+        self._length += 1
         
     def remove(self, index: int = None) -> None:
-        '''A method for removing an element from the linked-list. If an index was given, an element at given index-position will be removed else will be removed the last element.'''
+        '''A method for removing a node from the linked-list. If an index was given, a node at given index-position will be removed else the last node will be removed.'''
 
         if index is not None and not isinstance(index, int):
             raise TypeError('index type must be an integer')
@@ -117,23 +120,13 @@ class LinkedList:
                         next_node = node._link
                         previous_node._link = next_node
                     node = node._link
+
+        self._length -= 1
         
     def __len__(self) -> int:
         '''returns the length of the LinkedList instance.'''
 
-        length = 0
-
-        if self._head is None:
-            return 0
-        else:
-            node = self._head
-            while True:
-                if node._link is None:
-                    length += 1
-                    return length
-                else:
-                    length += 1
-                    node = node._link
+        return self._length
 
     def __iter__(self):
         '''provides the opportunity to iterate the LinkedList instance.'''
@@ -151,7 +144,7 @@ class LinkedList:
                     node = node._link
 
     def __getitem__(self, index: int) -> _Node:
-        '''provides getting items using the following syntax: LinkedList()[2] - where 2 is an index of the node.'''
+        '''provides getting nodes using the following syntax: LinkedList()[2] - where 2 is an index of the node.'''
 
         if not isinstance(index, int):
             raise TypeError('index type must be an integer')
