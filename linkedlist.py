@@ -122,6 +122,12 @@ class LinkedList:
                     node = node._link
 
         self._length -= 1
+
+    @property
+    def length(self) -> int:
+        '''returns the length of the LinkedList instance.'''
+
+        return self._length
         
     def __len__(self) -> int:
         '''returns the length of the LinkedList instance.'''
@@ -137,10 +143,10 @@ class LinkedList:
             node = self._head
             while True:
                 if node._link is None:
-                    yield node
+                    yield node.data
                     break
                 else:
-                    yield node
+                    yield node.data
                     node = node._link
 
     def __getitem__(self, index: int) -> _Node:
@@ -149,7 +155,7 @@ class LinkedList:
         if not isinstance(index, int):
             raise TypeError('index type must be an integer')
 
-        if len(self) <= index or index < 0:
+        if self.length <= index or index < 0:
             raise IndexError('list index out of range')
         else:
             if index == 0:
@@ -169,7 +175,7 @@ class LinkedList:
         '''returns True if the first LinkedList instance length greater then the second LinkedList instance length else returns False when using ">" or "<" between them.'''
 
         if isinstance(item, self.__class__):
-            return len(self) > len(item)
+            return self.length > item.length
         else:
             raise TypeError('LinkedList can be compared using ">" and "<" only between the LinkedList instances')
         
@@ -177,23 +183,22 @@ class LinkedList:
         '''returns True if the first LinkedList instance length greater or equal to the second LinkedList instance length else returns False when using ">=" or "<=" between them.'''
 
         if isinstance(item, self.__class__):
-            return len(self) >= len(item)
+            return self.length >= item.length
         else:
             raise TypeError('LinkedList can be compared using ">=" and "<=" only between the LinkedList instances')
         
     def __add__(self, item) -> None:
-        'provides joining different LinkedList instances to one using "+" between instances.'
+        '''provides joining different LinkedList instances to one using "+" between instances.'''
 
         if isinstance(item, self.__class__):
-            length = len(self)
-            last_node = self[length - 1]
+            last_node = self[self.length - 1]
             last_node._link = item._head
             return self
         else:
             raise TypeError('LinkedList can be joined using "+" only with another LinkedList instance')
         
     def __delattr__(self, name: str) -> None:
-        'raises an error when trying to delete some attribute from the LinkedList.'
+        '''raises an error when trying to delete some attribute from the LinkedList.'''
 
         raise AttributeError('permission denied: attribute deleting')
 
